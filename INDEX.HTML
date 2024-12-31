@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game for My Love</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffe6e6;
+            color: #333;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            background: #ff8080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .options button:hover {
+            background: #e60000;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #4CAF50;
+        }
+        .hidden {
+            display: none;
+        }
+        .reward-container {
+            display: none;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffcccb;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .reward-container h2 {
+            color: #e60000;
+        }
+        .reward-container a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #ff8080;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .reward-container a:hover {
+            background: #e60000;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quiz-container">
+        <h1>Quiz Game for My Love</h1>
+        <div id="quiz">
+            <div class="question">What is my favorite color?</div>
+            <div class="options">
+                <button onclick="checkAnswer(1)">Red</button>
+                <button onclick="checkAnswer(2)">Blue</button>
+                <button onclick="checkAnswer(3)">Green</button>
+                <button onclick="checkAnswer(4)">Pink</button>
+            </div>
+        </div>
+        <div id="result" class="result hidden">Correct! Let’s move to the next question!</div>
+    </div>
+
+    <div class="reward-container" id="reward-container">
+        <h2>Congratulations, My Love! 🩷🎉</h2>
+        <p>You’ve completed the quiz! Here’s your reward:</p>
+        <p><strong>A heartfelt letter:</strong></p>
+        <p>"My dearest love, you are the most amazing person in my life. Your kindness, strength, and love inspire me every day. Thank you for being you, and for making my life so special. I am so lucky to have you by my side. Always remember how much I love and cherish you!" ❤️</p>
+        <a href="https://youtube.com/playlist?list=PL0IUmEJB-owCNnznIQf-T2b44s-b65VVW&si=yjOAGQIKHRMmXojc" target="_blank">Click here to enjoy your YouTube playlist! 🎵</a>
+        <a href="https://1drv.ms/f/c/af7bb76b129fb31e/Eh6znxJrt3sggK-BAAAAAAAB8j5CYqbazGF4dJmr-npoOQ " target="_blank">Click here for another special surprise! 🎁</a>
+    </div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        const questions = [
+            {
+                question: "Where is our first meet spot?",
+                options: ["Dabri Metro Station", "Rajouri Garden Metro Station", "District Center", "None"],
+                correct: 1 // Index of the correct answer (Dabri Metro Station)
+            },
+            {
+                question: "What is my favorite color?",
+                options: ["Red", "Blue", "Green", "Pink"],
+                correct: 3 // Index of the correct answer (Green)
+            },
+            {
+                question: "What is our anniversary date?",
+                options: ["13th Aug", "16th Aug", "28th July", "14th Aug"],
+                correct: 4 // Index of the correct answer (14th Aug)
+            },
+            {
+                question: "Who's Love Naishu More?",
+                options: ["You", "Me", "Us", "None"],
+                correct: 3 // Index of the correct answer (Us)
+            },
+            {
+                question: "What was the first movie we watched together?",
+                options: ["Ek Villan", "Bhramastra"],
+                correct: 1 // Index of the correct answer (Ek Villan)
+            }
+        ];
+
+        function showQuestion() {
+            const quiz = document.getElementById("quiz");
+            const question = questions[currentQuestion];
+            quiz.innerHTML = `
+                <div class="question">${question.question}</div>
+                <div class="options">
+                    ${question.options.map((option, index) => `
+                        <button onclick="checkAnswer(${index + 1})">${option}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selected) {
+            const question = questions[currentQuestion];
+            const result = document.getElementById("result");
+
+            if (selected === question.correct) {
+                result.textContent = "Correct! Let’s move to the next question!";
+                result.classList.remove("hidden");
+                currentQuestion++;
+
+                if (currentQuestion < questions.length) {
+                    setTimeout(() => {
+                        result.classList.add("hidden");
+                        showQuestion();
+                    }, 1000);
+                } else {
+                    result.classList.add("hidden");
+                    showReward();
+                }
+            } else {
+                result.textContent = "Oops! Try again.";
+                result.classList.remove("hidden");
+                setTimeout(() => result.classList.add("hidden"), 1000);
+            }
+        }
+
+        function showReward() {
+            const quizContainer = document.getElementById("quiz-container");
+            const rewardContainer = document.getElementById("reward-container");
+
+            quizContainer.style.display = "none";
+            rewardContainer.style.display = "block";
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>
